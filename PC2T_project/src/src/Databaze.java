@@ -49,8 +49,8 @@ public class Databaze {
         }
 	}
 	
-	public void infoICZamestnanec() {
-		 
+	public Zamestnanec getIC(int IC) {
+		return vnitrniDatabaze.get(IC);
 	}
 	
 }
