@@ -1,7 +1,7 @@
 package src;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+//hlavni cast pro spousteni
 public class Main {
 	
 	public static int pouzeCelaCisla(Scanner sc) {

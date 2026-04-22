@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.util.Random;
 import java.util.HashMap;
 import java.util.Map;
-
+//databaze
 public class Databaze {
 	
 	private Scanner sc;
