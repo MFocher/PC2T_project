@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.util.Random;
 import java.util.HashMap;
 import java.util.Map;
-//databaze
+
 public class Databaze {
 	
 	private Scanner sc;
@@ -44,6 +44,29 @@ public class Databaze {
         
         System.out.println("	-Pridan zamestnanec: " + novy.getJmeno() + " " + novy.getPrijmeni() + ", rok narozeni: " + novy.getRok() + ", IC: " + novy.getIC() + ", skupina: " + novy.getSkupina());
     }
+	
+	public void removeZamestnanec() {
+		if (vnitrniDatabaze.isEmpty()) {
+			System.out.println("	-Nelze odebrat, nebot databaze je prazdna!");
+			return;
+		}
+		
+		System.out.println("\n│-----------------------------------------│");
+		System.out.println("  Vyberte IC zamestnance k odebrani: ");
+		System.out.println("\n│-----------------------------------------│\n");
+		for (Zamestnanec s : vnitrniDatabaze.values()) {
+			System.out.println("	-Zamestnanec: " + s.getJmeno() + " " + s.getPrijmeni() + ", rok narozeni: " + s.getRok() + ", IC: " + s.getIC() + ", skupina: " + s.getSkupina());
+        }
+		int removeIC = sc.nextInt();
+		
+		Zamestnanec remove = vnitrniDatabaze.remove(removeIC);
+		if (remove != null) {
+			System.out.println("	-Odebran zamestnanec: " + remove.getJmeno() + " " + remove.getPrijmeni() + ", rok narozeni: " + remove.getRok() + ", IC: " + remove.getIC() + ", skupina: " + remove.getSkupina());			
+			return;
+		} else {
+			System.out.println("	-Zamestnanec s IC: " + removeIC + " nenalezen!");
+		}
+	}
 	
 	public void infoZamestnanci() {
 		System.out.println("	Vypis vsech zamestnancu: ");

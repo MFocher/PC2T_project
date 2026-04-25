@@ -36,9 +36,16 @@ public class Main {
 				System.out.println("\n│-----------------------------------------│");
 				System.out.println("	Vyberte pozadovanou cinnost:\n");
 	            System.out.println("	1 ... pridani noveho zamestnance");
-	            System.out.println("	X ... pridani nove spoluprace");
-	            System.out.println("	3 ... vypsani vsech zamestnancu");
-	            System.out.println("	4 ... vypsani zamestnance dle IC");
+	            System.out.println("	X2 ... odebrani zamestnance");
+	            System.out.println("	X3 ... pridani spoluprace");
+	            System.out.println("	4 ... vypsani vsech zamestnancu");
+	            System.out.println("	5 ... vypsani zamestnance dle IC");
+	            System.out.println("	X6 ... vypsani zamestnancu dle prijmeni ve skupinach");
+	            System.out.println("	X7 ... vypis poctu zamestnacu ve skupinach");
+	            System.out.println("	X8 ... ulozeni zamestnance do souboru");
+	            System.out.println("	X9 ... nacteni zamestnance ze souboru");
+	            System.out.println("	Xpri ukonceni ... ulozeni vsech dat do SQL souboru");
+	            System.out.println("	Xpri startu ... nacteni vsech dat z SQL souboru");
 	            System.out.println("	0 ... UKONCENI PROGRAMU");
 	            System.out.println("│-----------------------------------------│\n");
 	            
@@ -50,14 +57,14 @@ public class Main {
 	            		break;
 	            		
 	            	case 2:
-	            		
-	            		break;
-	            	
-	            	case 3:
-	            		vnitrniDatabaze.infoZamestnanci();
+	            		vnitrniDatabaze.removeZamestnanec();
 	            		break;
 	            	
 	            	case 4:
+	            		vnitrniDatabaze.infoZamestnanci();
+	            		break;
+	            	
+	            	case 5:
 	            		System.out.println("\n│-----------------------------------------│");
 	            		System.out.println("	Vypiste IC zamestnance: \n");
 	                    System.out.println("\n│-----------------------------------------│\n");
