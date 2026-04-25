@@ -36,12 +36,12 @@ public class Main {
 				System.out.println("\n│-----------------------------------------│");
 				System.out.println("	Vyberte pozadovanou cinnost:\n");
 	            System.out.println("	1 ... pridani noveho zamestnance");
-	            System.out.println("	X2 ... odebrani zamestnance");
-	            System.out.println("	X3 ... pridani spoluprace");
+	            System.out.println("	2 ... odebrani zamestnance");
+	            System.out.println("	3 ... pridani spoluprace");
 	            System.out.println("	4 ... vypsani vsech zamestnancu");
 	            System.out.println("	5 ... vypsani zamestnance dle IC");
-	            System.out.println("	X6 ... vypsani zamestnancu dle prijmeni ve skupinach");
-	            System.out.println("	X7 ... vypis poctu zamestnacu ve skupinach");
+	            System.out.println("	6 ... vypsani zamestnancu dle prijmeni ve skupinach");
+	            System.out.println("	7 ... vypis poctu zamestnacu ve skupinach");
 	            System.out.println("	X8 ... ulozeni zamestnance do souboru");
 	            System.out.println("	X9 ... nacteni zamestnance ze souboru");
 	            System.out.println("	Xpri ukonceni ... ulozeni vsech dat do SQL souboru");
@@ -59,23 +59,33 @@ public class Main {
 	            	case 2:
 	            		vnitrniDatabaze.removeZamestnanec();
 	            		break;
-	            	
+	            		
+	            	case 3:
+	            		vnitrniDatabaze.addSpoluprace();
+	            		break;
+	            		
 	            	case 4:
 	            		vnitrniDatabaze.infoZamestnanci();
 	            		break;
 	            	
 	            	case 5:
-	            		System.out.println("\n│-----------------------------------------│");
-	            		System.out.println("	Vypiste IC zamestnance: \n");
-	                    System.out.println("\n│-----------------------------------------│\n");
+	            		vnitrniDatabaze.infoICZamestnanec();
+	            		break;
+	            	
+	            	case 6:
+	            		vnitrniDatabaze.infoSkupinaZamestnance();
+	            		break;
 	            		
-	            		IC = sc.nextInt();
-	            		Zamestnanec s = vnitrniDatabaze.getIC(IC);
-                        if (s != null) {
-                        	System.out.println("	-Zamestnanec: " + s.getJmeno() + " " + s.getPrijmeni() + ", rok narozeni: " + s.getRok() + ", IC: " + s.getIC() + ", skupina: " + s.getSkupina());
-                        } else {
-                            System.out.println("	-Zamestnanec nenalezen!");
-                        }
+	            	case 7:
+	            		vnitrniDatabaze.infoSkupinaPocet();
+	            		break;
+	            		
+	            	case 8:
+	            		
+	            		break;
+	            		
+	            	case 9:
+	            		
 	            		break;
 	            		
 	            	case 0:
