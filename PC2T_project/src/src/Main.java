@@ -58,7 +58,10 @@ public class Main {
 	            		break;
 	            	
 	            	case 4:
-	            		System.out.println("	Vypiste IC daneho zamestnance: \n");
+	            		System.out.println("\n│-----------------------------------------│");
+	            		System.out.println("	Vypiste IC zamestnance: \n");
+	                    System.out.println("\n│-----------------------------------------│\n");
+	            		
 	            		IC = sc.nextInt();
 	            		Zamestnanec s = vnitrniDatabaze.getIC(IC);
                         if (s != null) {

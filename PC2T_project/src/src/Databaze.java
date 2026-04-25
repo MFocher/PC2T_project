@@ -15,18 +15,21 @@ public class Databaze {
 	}
 	
 	public void viewSkupiny() {
-		System.out.println("│-----------------------------------------│");
-        System.out.println("	1 ... Datoví analytici");
+		System.out.println("\n│-----------------------------------------│");
+		System.out.println("	Zvolte skupinu k prirazeni: ");
+		
+        System.out.println("\n	1 ... Datoví analytici");
         System.out.println("	2 ... Bezpecnostní specialisté");
         System.out.println("│-----------------------------------------│\n");
 	}
 	
 	public void addZamestnanec() {
-		System.out.println("	Zvolte skupinu k prirazeni: ");
 		viewSkupiny();
 		int skupina = sc.nextInt();
+		System.out.println("\n│-----------------------------------------│");
+		System.out.println("  Zadejte JMENO, PRIJMENI a ROK NAROZENI:");
+        System.out.println("\n│-----------------------------------------│\n");
 		
-		System.out.println("	Zadejte JMENO, PRIJMENI a ROK NAROZENI:");
         String jmeno = sc.next();
         String prijmeni = sc.next();
         int rok = sc.nextInt();
