@@ -1,5 +1,5 @@
 package src;
-//zamestnanecka inicializace
+
 public class Zamestnanec {
 	public Zamestnanec(int skupina, int IC, String jmeno, String prijmeni, int rok) {
 		this.skupina = skupina;
