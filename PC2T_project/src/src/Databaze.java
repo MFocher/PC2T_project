@@ -329,11 +329,23 @@ public class Databaze {
 	}
 	
 	public void atributDatAn() {
-		
+		System.out.println("\n│-----------------------------------------│");
+		System.out.println("  Modul datovych analytiku \n");
+        System.out.println("│-----------------------------------------│\n");
+        
+        int mujIC = aktualniProfil.getIC();
+        
+        
 	}
 	
 	public void atributBezSpec() {
-		
+		System.out.println("\n│-----------------------------------------│");
+		System.out.println("  Modul bezpecnostnich specialistu \n");
+        System.out.println("│-----------------------------------------│\n");
+        
+        int mujIC = aktualniProfil.getIC();
+        
+        
 	}
 	
 	public Zamestnanec getIC(int IC) {
