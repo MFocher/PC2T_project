@@ -11,10 +11,12 @@ public class Databaze {
 	
 	private Scanner sc;
 	private Map<Integer, Zamestnanec> vnitrniDatabaze;
-	//public List <Spoluprace> seznamSpolupraci = new ArrayList<>();	//DO5E3IT pro ADDspolupraci
+	private List <Spoluprace> seznamSpolupraci;	//DO5E3IT pro ADDspolupraci
+	
 	public Databaze() {
 		this.sc = new Scanner(System.in);
 		this.vnitrniDatabaze = new HashMap<>();
+		this.seznamSpolupraci = new ArrayList<>();
 	}
 	
 	public void viewSkupiny() {
@@ -121,13 +123,47 @@ public class Databaze {
             System.out.println("	-Zamestnanec nenalezen!");
         }
 		
-        //UROVEN SPOLOPRACE VYRESIT
+        System.out.println("\n│-----------------------------------------│");
+		System.out.println("	Zvolte uroven spoluprace: ");
+		System.out.println("\n	1 ... DOBRA");
+        System.out.println("	2 ... PRUMERNA");
+        System.out.println("	3 ... SPATNA");
+        System.out.println("	4 ... NAHODNA");
+		System.out.println("\n│-----------------------------------------│\n");
+		
+		int urovenSpol = sc.nextInt();
+		String ulozenaUroven = "x";
+	    
+	    switch (urovenSpol) {
+	        case 1:
+	            ulozenaUroven = "DOBRA";
+	            break;
+	        case 2:
+	            ulozenaUroven = "PRUMERNA";
+	            break;
+	        case 3:
+	            ulozenaUroven = "SPATNA";
+	            break;
+	        case 4:
+	            String[] moznosti = {"DOBRA", "PRUMERNA", "SPATNA"};
+	            Random rand = new Random();
+	            ulozenaUroven = moznosti[rand.nextInt(moznosti.length)];
+	            break;
+	        default:
+	            System.out.println("	-Neplatna volba, nastavuji jako x.");
+	            ulozenaUroven = "x";
+	            break;
+	    }
         
+	    Spoluprace novaSpoluprace = new Spoluprace(s.getIC(), t.getIC(), ulozenaUroven);
+	    seznamSpolupraci.add(novaSpoluprace);
+	    
         System.out.println("\n│-----------------------------------------│");
 		System.out.println("	Vytvorena spoluprace mezi: ");
-		System.out.println("\n	" + s.getJmeno() + " " + s.getPrijmeni() + " (" + s.getIC() + ") ");
-		System.out.println("		a ");
-		System.out.println("\n	" + t.getJmeno() + " " + t.getPrijmeni() + " (" + t.getIC() + ") ");
+		System.out.println("\n		" + s.getJmeno() + " " + s.getPrijmeni() + " (" + s.getIC() + ") ");
+		System.out.println("			a ");
+		System.out.println("\n		" + t.getJmeno() + " " + t.getPrijmeni() + " (" + t.getIC() + ") ");
+		System.out.println("			" + ulozenaUroven);
 		System.out.println("\n│-----------------------------------------│\n");
         
 	}
