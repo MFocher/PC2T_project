@@ -44,8 +44,10 @@ public class Main {
 	            System.out.println("	7 ... vypis poctu zamestnacu ve skupinach");
 	            System.out.println("	X8 ... ulozeni zamestnance do souboru");
 	            System.out.println("	X9 ... nacteni zamestnance ze souboru");
-	            System.out.println("	Xpri ukonceni ... ulozeni vsech dat do SQL souboru");
-	            System.out.println("	Xpri startu ... nacteni vsech dat z SQL souboru");
+	            System.out.println("	Xuk ... ulozeni vsech dat do SQL souboru");
+	            System.out.println("	Xst ... nacteni vsech dat z SQL souboru");
+	            System.out.println("	10 ... zvoleni profilu zamestnance");
+	            System.out.println("	11 ... atribut skupiny zamestnance");
 	            System.out.println("	0 ... UKONCENI PROGRAMU");
 	            System.out.println("│-----------------------------------------│\n");
 	            
@@ -86,6 +88,14 @@ public class Main {
 	            		
 	            	case 9:
 	            		
+	            		break;
+	            		
+	            	case 10:
+	            		vnitrniDatabaze.choiseProfil();
+	            		break;
+	            		
+	            	case 11:
+	            		vnitrniDatabaze.atributProfil();
 	            		break;
 	            		
 	            	case 0:

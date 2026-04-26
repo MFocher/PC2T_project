@@ -12,6 +12,7 @@ public class Databaze {
 	private Scanner sc;
 	private Map<Integer, Zamestnanec> vnitrniDatabaze;
 	private List <Spoluprace> seznamSpolupraci;	//DO5E3IT pro ADDspolupraci
+	private Zamestnanec aktualniProfil = null;
 	
 	public Databaze() {
 		this.sc = new Scanner(System.in);
@@ -68,6 +69,10 @@ public class Databaze {
 		
 		Zamestnanec remove = vnitrniDatabaze.remove(removeIC);
 		if (remove != null) {
+			if (seznamSpolupraci != null) {
+	            seznamSpolupraci.removeIf(spol -> spol.getZamestnanecIC1() == removeIC || spol.getZamestnanecIC2() == removeIC);
+	        }
+			
 			System.out.println("	-Odebran zamestnanec: " + remove.getJmeno() + " " + remove.getPrijmeni() + ", rok narozeni: " + remove.getRok() + ", IC: " + remove.getIC() + ", skupina: " + remove.getSkupina());			
 			
 			/*try {
@@ -146,8 +151,7 @@ public class Databaze {
 	            break;
 	        case 4:
 	            String[] moznosti = {"DOBRA", "PRUMERNA", "SPATNA"};
-	            Random rand = new Random();
-	            ulozenaUroven = moznosti[rand.nextInt(moznosti.length)];
+	            ulozenaUroven = moznosti[(int)(Math.random() * 3)];
 	            break;
 	        default:
 	            System.out.println("	-Neplatna volba, nastavuji jako x.");
@@ -180,7 +184,7 @@ public class Databaze {
 	public void infoICZamestnanec() {
 		System.out.println("\n│-----------------------------------------│");
 		System.out.println("	Vypiste IC zamestnance: \n");
-        System.out.println("\n│-----------------------------------------│\n");
+        System.out.println("│-----------------------------------------│\n");
 		
 		int IC = sc.nextInt();
 		Zamestnanec s = vnitrniDatabaze.get(IC);
@@ -189,7 +193,31 @@ public class Databaze {
         } else {
             System.out.println("	-Zamestnanec nenalezen!");
         }
+        
+        List<Spoluprace> osobniSpoluprace = new ArrayList<>();
+        if (seznamSpolupraci != null) {
+        	for (Spoluprace spol : seznamSpolupraci) {
+        		if (spol.getZamestnanecIC1() == IC || spol.getZamestnanecIC2() == IC) {
+                    osobniSpoluprace.add(spol);
+                }
+            }
+        }
+        
+        if(osobniSpoluprace.isEmpty()) {
+        	System.out.println("	-Zamestnanec nema spoluprace!");
+        } else {
+            System.out.println("\n	-> Osobni spoluprace (" + IC +"):");
+            
+            for (Spoluprace spol : osobniSpoluprace) {
+                int idKolegy = (spol.getZamestnanecIC1() == IC) ? spol.getZamestnanecIC2() : spol.getZamestnanecIC1();
+                Zamestnanec kolega = vnitrniDatabaze.get(idKolegy);
+                
+                String jmenoKolegy = (kolega != null) ? (kolega.getPrijmeni() + " " + kolega.getJmeno()) : "Neznamy (" + idKolegy + ")";
+                System.out.println("		-> s kolegou: " + jmenoKolegy + " ("+ kolega.getIC() +")" + " , spoluprace: " + spol.getUroven());
+            }
+        } 
 	}
+	
 	
 	//	6
 	public void infoSkupinaZamestnance() {
@@ -247,8 +275,65 @@ public class Databaze {
         
         System.out.println("\n│-----------------------------------------│");
 		System.out.println("	Pocet zamestnancu ve skupine " + pocetniSkupina + ": ");
-        System.out.println("\n	"+ pocet);
+        System.out.println("\n		"+ pocet);
         System.out.println("│-----------------------------------------│\n");
+	}
+	
+	//	8
+	
+	
+	//	9
+	
+	
+	//	10
+	public void choiseProfil() {
+		if (vnitrniDatabaze.isEmpty()) {
+			System.out.println("	-Databaze je prazdna!");
+			return;
+		}
+		
+		System.out.println("\n│-----------------------------------------│");
+		System.out.println("	Vyberte IC zamestnance: \n");
+        System.out.println("│-----------------------------------------│\n");
+        for (Zamestnanec s : vnitrniDatabaze.values()) {
+			System.out.println("	-Zamestnanec: " + s.getJmeno() + " " + s.getPrijmeni() + ", rok narozeni: " + s.getRok() + ", IC: " + s.getIC() + ", skupina: " + s.getSkupina());
+        }
+		
+		int profilIC = sc.nextInt();
+		Zamestnanec s = vnitrniDatabaze.get(profilIC);
+        if (s != null) {
+        	aktualniProfil = s;
+        	System.out.println("	-Aktivni profil zamestnance: " + s.getJmeno() + " " + s.getPrijmeni() + ", rok narozeni: " + s.getRok() + ", IC: " + s.getIC() + ", skupina: " + s.getSkupina());
+        } else {
+            System.out.println("	-Zamestnanec nenalezen!");
+        }
+	}
+	
+	//	11
+	public void atributProfil() {
+		if (aktualniProfil == null) {
+			System.out.println("	-Neni nastaven aktualni zamestnanec!");
+			return;
+		}
+		
+		int skupinaProfilu = aktualniProfil.getSkupina();
+		
+		if (skupinaProfilu == 1) {
+			atributDatAn();
+		} else if (skupinaProfilu == 2) {
+			atributBezSpec();
+		} else {
+			System.out.println("	-Chybna skupina!");
+			return;
+		}
+	}
+	
+	public void atributDatAn() {
+		
+	}
+	
+	public void atributBezSpec() {
+		
 	}
 	
 	public Zamestnanec getIC(int IC) {
