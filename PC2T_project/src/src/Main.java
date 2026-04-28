@@ -42,12 +42,13 @@ public class Main {
 	            System.out.println("	5 ... vypsani zamestnance dle IC");
 	            System.out.println("	6 ... vypsani zamestnancu dle prijmeni ve skupinach");
 	            System.out.println("	7 ... vypis poctu zamestnacu ve skupinach");
-	            System.out.println("	8 ... ulozeni zamestnance do souboru");
-	            System.out.println("	9 ... nacteni zamestnance ze souboru");
+	            System.out.println("	8 ... statistiky");
+	            System.out.println("	9 ... ulozeni zamestnance do souboru");
+	            System.out.println("	10 ... nacteni zamestnance ze souboru");
 	            System.out.println("	Xuk ... ulozeni vsech dat do SQL souboru");
 	            System.out.println("	Xst ... nacteni vsech dat z SQL souboru");
-	            System.out.println("	10 ... zvoleni profilu zamestnance");
-	            System.out.println("	11 ... atribut skupiny zamestnance");
+	            System.out.println("	11 ... zvoleni profilu zamestnance");
+	            System.out.println("	12 ... atribut skupiny zamestnance");
 	            System.out.println("	0 ... UKONCENI PROGRAMU");
 	            System.out.println("│-----------------------------------------│\n");
 	            
@@ -83,23 +84,28 @@ public class Main {
 	            		break;
 	            		
 	            	case 8:
-	            		vnitrniDatabaze.saveZamestnanec();
+	            		vnitrniDatabaze.statistikyZamestnani();
 	            		break;
 	            		
 	            	case 9:
-	            		vnitrniDatabaze.loadZamestnanec();
+	            		vnitrniDatabaze.saveZamestnanec();
 	            		break;
 	            		
 	            	case 10:
-	            		vnitrniDatabaze.choiseProfil();
+	            		vnitrniDatabaze.loadZamestnanec();
 	            		break;
 	            		
 	            	case 11:
+	            		vnitrniDatabaze.choiseProfil();
+	            		break;
+	            		
+	            	case 12:
 	            		vnitrniDatabaze.atributProfil();
 	            		break;
 	            		
 	            	case 0:
 	            		run = false;
+	            		//vnitrniDatabaze.ulozSQL();
 	            		System.out.println("	-PROGRAM UKONCEN!");
 	            		break;
 	            	

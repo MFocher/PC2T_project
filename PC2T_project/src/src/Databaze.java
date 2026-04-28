@@ -300,6 +300,79 @@ public class Databaze {
 	}
 	
 	//	8
+	public void statistikyZamestnani() {
+		System.out.println("\n│-----------------------------------------│");
+		System.out.println("  Celkove statistiky firmy ");
+		System.out.println("│-----------------------------------------│\n");
+
+		if (seznamSpolupraci == null || seznamSpolupraci.isEmpty()) {
+			System.out.println("	-Zadne statistiky k zobrazeni, neexistuji zadne spoluprace.");
+			return;
+		}
+
+		int dobra = 0;
+		int prumerna = 0;
+		int spatna = 0;
+
+		Map<Integer, Integer> pocetVazeb = new HashMap<>();
+
+		for (Spoluprace spol : seznamSpolupraci) {
+			
+			String uroven = spol.getUroven().toUpperCase();
+			if (uroven.contains("DOBR")) {
+				dobra++;
+			} else if (uroven.contains("PRUMER") || uroven.contains("PRŮMĚR")) {
+				prumerna++;
+			} else if (uroven.contains("SPATN") || uroven.contains("ŠPATN")) {
+				spatna++;
+			}
+
+			int ic1 = spol.getZamestnanecIC1();
+			int ic2 = spol.getZamestnanecIC2();
+			
+			pocetVazeb.put(ic1, pocetVazeb.getOrDefault(ic1, 0) + 1);
+			pocetVazeb.put(ic2, pocetVazeb.getOrDefault(ic2, 0) + 1);
+		}
+
+		String prevazujiciKvalita = "DOBRÁ";
+		int maxKvalita = dobra;
+
+		if (prumerna > maxKvalita) {
+			maxKvalita = prumerna;
+			prevazujiciKvalita = "PRŮMĚRNÁ";
+		}
+		if (spatna > maxKvalita) {
+			maxKvalita = spatna;
+			prevazujiciKvalita = "ŠPATNÁ";
+		}
+
+		System.out.println("	1. Prevazujici kvalita spoluprace:");
+		System.out.println("	-> " + prevazujiciKvalita + " (Pocet vyskytu: " + maxKvalita + ")");
+		System.out.println("	   (Celkove rozlozeni - Dobra: " + dobra + ", Prumerna: " + prumerna + ", Spatna: " + spatna + ")\n");
+
+		int maxVazeb = -1;
+		int topIC = -1;
+
+		for (Map.Entry<Integer, Integer> zaznam : pocetVazeb.entrySet()) {
+			if (zaznam.getValue() > maxVazeb) {
+				maxVazeb = zaznam.getValue();
+				topIC = zaznam.getKey();
+			}
+		}
+
+		Zamestnanec topZamestnanec = vnitrniDatabaze.get(topIC);
+		
+		System.out.println("	2. Zamestnanec s nejvice vazbami:");
+		if (topZamestnanec != null) {
+			System.out.println("	-> " + topZamestnanec.getJmeno() + " " + topZamestnanec.getPrijmeni() + " (IC: " + topIC + ")");
+			System.out.println("	   Pocet vazeb: " + maxVazeb);
+		} else {
+			System.out.println("	-> Neznamy/Smazany zamestnanec (IC: " + topIC + ")");
+			System.out.println("	   Pocet vazeb: " + maxVazeb);
+		}
+	}
+	
+	//	9
 	public void saveZamestnanec() {
 		if (vnitrniDatabaze.isEmpty()) {
 			System.out.println("	-Databaze je prazdna!");
@@ -332,7 +405,7 @@ public class Databaze {
 	        }
 	}
 	
-	//	9
+	//	10
 	public void loadZamestnanec() {
 	    String nazevSouboru = "UlozeniZamestnanci.txt";
 	    
@@ -398,7 +471,7 @@ public class Databaze {
 	    }
 	}
 	
-	//	10
+	//	11
 	public void choiseProfil() {
 		if (vnitrniDatabaze.isEmpty()) {
 			System.out.println("	-Databaze je prazdna!");
@@ -422,7 +495,7 @@ public class Databaze {
         }
 	}
 	
-	//	11
+	//	12
 	public void atributProfil() {
 		if (aktualniProfil == null) {
 			System.out.println("	-Neni nastaven aktualni zamestnanec!");
@@ -566,7 +639,15 @@ public class Databaze {
         
         
 	}
+	/*
+	public void ulozSQL() {
+		
+	}
 	
+	public void nactiSQL() {
+		
+	}
+	*/
 	public Zamestnanec getIC(int IC) {
 		return vnitrniDatabaze.get(IC);
 	}

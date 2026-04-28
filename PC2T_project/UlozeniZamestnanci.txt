@@ -1,0 +1,3 @@
+47133;Marek;Porek;1996;1
+590003;novyk;lupik;1203;2
+447843;Jindra;Skalicky;1200;1
