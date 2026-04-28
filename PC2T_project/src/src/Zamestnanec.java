@@ -1,7 +1,7 @@
 package src;
 
 public class Zamestnanec {
-	public Zamestnanec(int skupina, int IC, String jmeno, String prijmeni, int rok) {
+	public Zamestnanec(int IC, String jmeno, String prijmeni, int rok, int skupina) {
 		this.skupina = skupina;
 		this.IC = IC;
 		this.jmeno = jmeno;

@@ -6,12 +6,22 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
+
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
 
 public class Databaze {
 	
 	private Scanner sc;
 	private Map<Integer, Zamestnanec> vnitrniDatabaze;
-	private List <Spoluprace> seznamSpolupraci;	//DO5E3IT pro ADDspolupraci
+	private List <Spoluprace> seznamSpolupraci;	
 	private Zamestnanec aktualniProfil = null;
 	
 	public Databaze() {
@@ -45,7 +55,7 @@ public class Databaze {
         int maxIC = 999999, minIC = 100000;
         int IC = r.nextInt((maxIC - minIC + 1) + minIC);
         
-        Zamestnanec novy = new Zamestnanec(skupina, IC, jmeno, prijmeni, rok);
+        Zamestnanec novy = new Zamestnanec(IC, jmeno, prijmeni, rok, skupina);
         
         vnitrniDatabaze.put(IC, novy);
         
@@ -174,6 +184,11 @@ public class Databaze {
 	
 	//	4
 	public void infoZamestnanci() {
+		if (vnitrniDatabaze.isEmpty()) {
+			System.out.println("	-Databaze je prazdna!");
+			return;
+		}
+		
 		System.out.println("	Vypis vsech zamestnancu: ");
 		for (Zamestnanec s : vnitrniDatabaze.values()) {
 			System.out.println("	-Zamestnanec: " + s.getJmeno() + " " + s.getPrijmeni() + ", rok narozeni: " + s.getRok() + ", IC: " + s.getIC() + ", skupina: " + s.getSkupina());
@@ -182,6 +197,11 @@ public class Databaze {
 	
 	//	5
 	public void infoICZamestnanec() {
+		if (vnitrniDatabaze.isEmpty()) {
+			System.out.println("	-Databaze je prazdna!");
+			return;
+		}
+		
 		System.out.println("\n│-----------------------------------------│");
 		System.out.println("	Vypiste IC zamestnance: \n");
         System.out.println("│-----------------------------------------│\n");
@@ -280,10 +300,103 @@ public class Databaze {
 	}
 	
 	//	8
-	
+	public void saveZamestnanec() {
+		if (vnitrniDatabaze.isEmpty()) {
+			System.out.println("	-Databaze je prazdna!");
+			return;
+		}
+		
+		System.out.println("\n│-----------------------------------------│");
+		System.out.println("	Vyberte IC zamestnance: \n");
+        System.out.println("│-----------------------------------------│\n");
+        for (Zamestnanec s : vnitrniDatabaze.values()) {
+			System.out.println("	-Zamestnanec: " + s.getJmeno() + " " + s.getPrijmeni() + ", rok narozeni: " + s.getRok() + ", IC: " + s.getIC() + ", skupina: " + s.getSkupina());
+        }
+		
+		int saveIC = sc.nextInt();
+		Zamestnanec z = vnitrniDatabaze.get(saveIC);
+	        
+	        if (z != null) {
+	            String nazevSouboru = "UlozeniZamestnanci.txt";
+	            
+	            try (PrintWriter pw = new PrintWriter(new FileWriter(nazevSouboru, true))) {
+	                
+	                pw.println(z.getIC() + ";" + z.getJmeno() + ";" + z.getPrijmeni() + ";" + z.getRok() + ";" + z.getSkupina());
+	                
+	                System.out.println("	-Zamestnanec (" + z.getJmeno() + " " + z.getPrijmeni() + " (" + z.getIC() +") byl uspesne pridan do souboru.");
+	            } catch (IOException e) {
+	                System.out.println("	-Doslo k chybe pri ukladani do souboru: " + e.getMessage());
+	            }
+	        } else {
+	            System.out.println("	-Zamestnanec s IC: " + saveIC + " nenalezen!");
+	        }
+	}
 	
 	//	9
-	
+	public void loadZamestnanec() {
+	    String nazevSouboru = "UlozeniZamestnanci.txt";
+	    
+	    System.out.println("\n│-----------------------------------------│");
+	    System.out.println("	Nacitani zamestnancu ze souboru...");
+	    System.out.println("│-----------------------------------------│\n");
+
+	    Map<Integer, Zamestnanec> docasnaDatabaze = new HashMap<>();
+
+	    try (BufferedReader br = new BufferedReader(new FileReader(nazevSouboru))) {
+	        String radek;
+	        while ((radek = br.readLine()) != null) {
+	            if (radek.trim().isEmpty()) continue;
+	            
+	            String[] data = radek.split(";");
+	            if (data.length == 5) {
+	                try {
+	                    int ic = Integer.parseInt(data[0]);
+	                    String jmeno = data[1];
+	                    String prijmeni = data[2];
+	                    int rok = Integer.parseInt(data[3]);
+	                    int skupina = Integer.parseInt(data[4]);
+	                    
+	                    Zamestnanec z = new Zamestnanec(ic, jmeno, prijmeni, rok, skupina);
+	                    docasnaDatabaze.put(ic, z);
+	                    
+	                } catch (NumberFormatException e) {
+	                }
+	            }
+	        }
+	    } catch (FileNotFoundException e) {
+	        System.out.println("	- Soubor '" + nazevSouboru + "' nebyl nalezen.");
+	        return;
+	    } catch (IOException e) {
+	        System.out.println("	- Doslo k chybe pri cteni souboru: " + e.getMessage());
+	        return;
+	    }
+
+	    if (docasnaDatabaze.isEmpty()) {
+	        System.out.println("	- Soubor existuje, ale neobsahuje zadna platna data zamestnancu.");
+	        return;
+	    }
+
+	    System.out.println("	Dostupni zamestnanci k nacteni ze souboru:");
+	    for (Zamestnanec z : docasnaDatabaze.values()) {
+	        System.out.println("	- " + z.getJmeno() + " " + z.getPrijmeni() + ", IC: " + z.getIC());
+	    }
+
+	    System.out.println("\n	Zadejte IC zamestnance, ktereho chcete nacist:");
+	    int loadIC = sc.nextInt();
+	    
+	    Zamestnanec vybrany = docasnaDatabaze.get(loadIC);
+	    
+	    if (vybrany != null) {
+	        if (!vnitrniDatabaze.containsKey(loadIC)) {
+	            vnitrniDatabaze.put(loadIC, vybrany);
+	            System.out.println("	- Zamestnanec uspesne nacten do programu: " + vybrany.getJmeno() + " " + vybrany.getPrijmeni());
+	        } else {
+	            System.out.println("	- Nelze nacist: Zamestnanec s IC (" + loadIC + ") uz v aktivnim programu je!");
+	        }
+	    } else {
+	        System.out.println("	- Zamestnanec s IC: " + loadIC + " v souboru nenalezen!");
+	    }
+	}
 	
 	//	10
 	public void choiseProfil() {
@@ -332,10 +445,60 @@ public class Databaze {
 		System.out.println("\n│-----------------------------------------│");
 		System.out.println("  Modul datovych analytiku \n");
         System.out.println("│-----------------------------------------│\n");
-        
+
         int mujIC = aktualniProfil.getIC();
-        
-        
+
+        Set<Integer> mojiSpolupracovnici = new HashSet<>();
+        if (seznamSpolupraci != null) {
+            for (Spoluprace spol : seznamSpolupraci) {
+                if (spol.getZamestnanecIC1() == mujIC) {
+                    mojiSpolupracovnici.add(spol.getZamestnanecIC2());
+                } else if (spol.getZamestnanecIC2() == mujIC) {
+                    mojiSpolupracovnici.add(spol.getZamestnanecIC1());
+                }
+            }
+        }
+
+        if (mojiSpolupracovnici.isEmpty()) {
+            System.out.println("	-Nemate zadne spolupracovniky, nelze hledat spolecne kontakty.");
+            return;
+        }
+
+        int maxSpolecnych = -1;
+        Zamestnanec topKolega = null;
+
+        for (Zamestnanec z : vnitrniDatabaze.values()) {
+            if (z.getIC() == mujIC) continue; 
+
+            Set<Integer> jehoSpolupracovnici = new HashSet<>();
+            for (Spoluprace spol : seznamSpolupraci) {
+                if (spol.getZamestnanecIC1() == z.getIC()) {
+                    jehoSpolupracovnici.add(spol.getZamestnanecIC2());
+                } else if (spol.getZamestnanecIC2() == z.getIC()) {
+                    jehoSpolupracovnici.add(spol.getZamestnanecIC1());
+                }
+            }
+
+            int spolecniCount = 0;
+            for (Integer id : jehoSpolupracovnici) {
+                if (mojiSpolupracovnici.contains(id)) {
+                    spolecniCount++;
+                }
+            }
+
+            if (spolecniCount > maxSpolecnych) {
+                maxSpolecnych = spolecniCount;
+                topKolega = z;
+            }
+        }
+
+        if (topKolega != null && maxSpolecnych > 0) {
+            System.out.println("	Nejvice spolecnych spolupracovniku mate s kolegou:");
+            System.out.println("	-> " + topKolega.getJmeno() + " " + topKolega.getPrijmeni() + " (" + topKolega.getIC() + ")");
+            System.out.println("	Pocet spolecnych vazeb: " + maxSpolecnych);
+        } else {
+            System.out.println("	-Zadny jiny zamestnanec s vami nema spolecneho spolupracovnika.");
+        }
 	}
 	
 	public void atributBezSpec() {
@@ -343,7 +506,63 @@ public class Databaze {
 		System.out.println("  Modul bezpecnostnich specialistu \n");
         System.out.println("│-----------------------------------------│\n");
         
+        if (aktualniProfil == null) {
+            System.out.println("	-Chyba: Neni vybran profil.");
+            return;
+        }
+
         int mujIC = aktualniProfil.getIC();
+        int pocetSpolupracovniku = 0;
+        double sumaRizika = 0;
+
+        if (seznamSpolupraci != null) {
+            for (Spoluprace spol : seznamSpolupraci) {
+                if (spol.getZamestnanecIC1() == mujIC || spol.getZamestnanecIC2() == mujIC) {
+                    pocetSpolupracovniku++;
+                    
+                    String uroven = spol.getUroven().toUpperCase();
+                    
+                    if (uroven.contains("DOBR")) {
+                        sumaRizika += 1.0;
+                    } else if (uroven.contains("PRUMER") || uroven.contains("PRŮMĚR")) {
+                        sumaRizika += 2.0;
+                    } else if (uroven.contains("SPATN") || uroven.contains("ŠPATN")) {
+                        sumaRizika += 3.0;
+                    } else {
+                        sumaRizika += 2.0; 
+                    }
+                }
+            }
+        }
+
+        if (pocetSpolupracovniku == 0) {
+            System.out.println("	-Nemate zadne navazane spoluprace.");
+            return;
+        }
+
+        double prumernaKvalita = sumaRizika / pocetSpolupracovniku;
+
+        double zakladniRiziko = (prumernaKvalita - 1.0) * 40.0;
+
+        double prirazkaZaPocet = pocetSpolupracovniku * 5.0;
+
+        double celkoveSkore = zakladniRiziko + prirazkaZaPocet;
+        if (celkoveSkore > 100.0) celkoveSkore = 100.0;
+        if (celkoveSkore < 0.0) celkoveSkore = 0.0;
+
+
+        System.out.println("	- Pocet spolupracovniku: " + pocetSpolupracovniku);
+        System.out.printf("	- Prumerna kvalita vazeb: %.2f \n", prumernaKvalita);
+        System.out.printf("	=> Celkove RIZIKOVE SKORE: %.1f %%\n", celkoveSkore);
+
+        System.out.println("\n	Zhodnoceni:");
+        if (celkoveSkore < 30) {
+            System.out.println("	[NIZKE RIZIKO] ");
+        } else if (celkoveSkore < 70) {
+            System.out.println("	[STREDNI RIZIKO] ");
+        } else {
+            System.out.println("	[VYSOKE RIZIKO] ");
+        }
         
         
 	}
