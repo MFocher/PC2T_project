@@ -17,12 +17,20 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 public class Databaze {
 	
 	private Scanner sc;
 	private Map<Integer, Zamestnanec> vnitrniDatabaze;
 	private List <Spoluprace> seznamSpolupraci;	
 	private Zamestnanec aktualniProfil = null;
+	private final String URL_SQL = "jdbc:sqlite:firemni_databaze.db";
 	
 	public Databaze() {
 		this.sc = new Scanner(System.in);
@@ -639,15 +647,90 @@ public class Databaze {
         
         
 	}
-	/*
+	
 	public void ulozSQL() {
-		
+		System.out.println("\n	-Zahajuji zalohovani dat do SQL...");
+		try {
+			Class.forName("org.sqlite.JDBC");
+			try (Connection conn = DriverManager.getConnection(URL_SQL)) {
+				if (conn != null) {
+					Statement stmt = conn.createStatement();
+					
+					stmt.execute("CREATE TABLE IF NOT EXISTS zamestnanci (" +
+								 "ic INTEGER PRIMARY KEY, jmeno TEXT, prijmeni TEXT, rok INTEGER, skupina INTEGER)");
+					stmt.execute("CREATE TABLE IF NOT EXISTS spoluprace (" +
+								 "ic1 INTEGER, ic2 INTEGER, uroven TEXT)");
+
+					stmt.execute("DELETE FROM zamestnanci");
+					stmt.execute("DELETE FROM spoluprace");
+
+					String sqlZam = "INSERT INTO zamestnanci(ic, jmeno, prijmeni, rok, skupina) VALUES(?,?,?,?,?)";
+					try (PreparedStatement pstmt = conn.prepareStatement(sqlZam)) {
+						for (Zamestnanec z : vnitrniDatabaze.values()) {
+							pstmt.setInt(1, z.getIC());
+							pstmt.setString(2, z.getJmeno());
+							pstmt.setString(3, z.getPrijmeni());
+							pstmt.setInt(4, z.getRok());
+							pstmt.setInt(5, z.getSkupina());
+							pstmt.executeUpdate(); 
+						}
+					}
+
+					String sqlSpol = "INSERT INTO spoluprace(ic1, ic2, uroven) VALUES(?,?,?)";
+					try (PreparedStatement pstmt = conn.prepareStatement(sqlSpol)) {
+						for (Spoluprace s : seznamSpolupraci) {
+							pstmt.setInt(1, s.getZamestnanecIC1());
+							pstmt.setInt(2, s.getZamestnanecIC2());
+							pstmt.setString(3, s.getUroven());
+							pstmt.executeUpdate();
+						}
+					}
+					System.out.println("	-Vsechna data byla uspesne zalohovana do SQL.");
+				}
+			}
+		}
+		catch (ClassNotFoundException e) {
+	        System.out.println("	-Kriticka chyba: Knihovna SQLite nebyla nalezena v Build Path!");
+		}  catch (SQLException e) {
+	        System.out.println("	-Chyba při ukládání do SQL: " + e.getMessage());
+	    }
 	}
 	
 	public void nactiSQL() {
-		
+		try (Connection conn = DriverManager.getConnection(URL_SQL)) {
+			if (conn != null) {
+				String sqlZam = "SELECT ic, jmeno, prijmeni, rok, skupina FROM zamestnanci";
+				Statement stmt = conn.createStatement();
+				ResultSet rsZam = stmt.executeQuery(sqlZam);
+				
+				while (rsZam.next()) {
+					int ic = rsZam.getInt("ic");
+					Zamestnanec z = new Zamestnanec(
+						ic, 
+						rsZam.getString("jmeno"), 
+						rsZam.getString("prijmeni"), 
+						rsZam.getInt("rok"), 
+						rsZam.getInt("skupina")
+					);
+					vnitrniDatabaze.put(ic, z);
+				}
+
+				String sqlSpol = "SELECT ic1, ic2, uroven FROM spoluprace";
+				ResultSet rsSpol = stmt.executeQuery(sqlSpol);
+				while (rsSpol.next()) {
+					seznamSpolupraci.add(new Spoluprace(
+						rsSpol.getInt("ic1"),
+						rsSpol.getInt("ic2"),
+						rsSpol.getString("uroven")
+					));
+				}
+				System.out.println("	-Data z SQL zalohy byla uspesne nactena.");
+			}
+		} catch (SQLException e) {
+			System.out.println("	-SQL zaloha nenalezena, program startuje s prazdnou databazi.");
+		}
 	}
-	*/
+	
 	public Zamestnanec getIC(int IC) {
 		return vnitrniDatabaze.get(IC);
 	}

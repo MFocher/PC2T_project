@@ -23,6 +23,8 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		Databaze vnitrniDatabaze = new Databaze();
 		
+		vnitrniDatabaze.nactiSQL();
+		
 		boolean run = true;
 		int volba;
 		String jmeno;
@@ -45,8 +47,6 @@ public class Main {
 	            System.out.println("	8 ... statistiky");
 	            System.out.println("	9 ... ulozeni zamestnance do souboru");
 	            System.out.println("	10 ... nacteni zamestnance ze souboru");
-	            System.out.println("	Xuk ... ulozeni vsech dat do SQL souboru");
-	            System.out.println("	Xst ... nacteni vsech dat z SQL souboru");
 	            System.out.println("	11 ... zvoleni profilu zamestnance");
 	            System.out.println("	12 ... atribut skupiny zamestnance");
 	            System.out.println("	0 ... UKONCENI PROGRAMU");
@@ -105,7 +105,7 @@ public class Main {
 	            		
 	            	case 0:
 	            		run = false;
-	            		//vnitrniDatabaze.ulozSQL();
+	            		vnitrniDatabaze.ulozSQL();
 	            		System.out.println("	-PROGRAM UKONCEN!");
 	            		break;
 	            	
