@@ -106,7 +106,7 @@ public class Main {
 	            	case 0:
 	            		run = false;
 	            		vnitrniDatabaze.ulozSQL();
-	            		System.out.println("\n	-PROGRAM UKONCEN!     BYE");
+	            		System.out.println("\n	-PROGRAM UKONCEN!  BYE o/");
 	            		break;
 	            	
 	            	default:

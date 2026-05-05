@@ -42,12 +42,13 @@ public class Databaze {
 		System.out.println("\n│-----------------------------------------│");
 		System.out.println("	Zvolte skupinu k prirazeni: ");
 		
-        System.out.println("\n	1 ... Datoví analytici");
-        System.out.println("	2 ... Bezpecnostní specialisté");
+        System.out.println("\n	1 ... Datovi analytici");
+        System.out.println("	2 ... Bezpecnostni specialiste");
         System.out.println("│-----------------------------------------│\n");
 	}
 	
-	//	1
+
+	
 	public void addZamestnanec() {
 		viewSkupiny();
 		int skupina = sc.nextInt();
@@ -74,7 +75,8 @@ public class Databaze {
         System.out.println("	-Pridan zamestnanec: " + novy.getJmeno() + " " + novy.getPrijmeni() + ", rok narozeni: " + novy.getRok() + ", IC: " + novy.getIC() + ", skupina: " + novy.getSkupina());
     }
 	
-	//	2
+
+
 	public void removeZamestnanec() {
 		if (vnitrniDatabaze.isEmpty()) {
 			System.out.println("	-Nelze odebrat, nebot databaze je prazdna!");
@@ -104,7 +106,8 @@ public class Databaze {
 		}
 	}
 	
-	//	3
+
+
 	public void addSpoluprace() {
 		if (vnitrniDatabaze.size() < 2) {
 			System.out.println("	-Nelze vytvorit spolupraci, s méně než 2 osobami!");
@@ -191,7 +194,8 @@ public class Databaze {
         
 	}
 	
-	//	4
+
+
 	public void infoZamestnanci() {
 		if (vnitrniDatabaze.isEmpty()) {
 			System.out.println("	-Databaze je prazdna!");
@@ -204,7 +208,8 @@ public class Databaze {
         }
 	}
 	
-	//	5
+
+
 	public void infoICZamestnanec() {
 		if (vnitrniDatabaze.isEmpty()) {
 			System.out.println("	-Databaze je prazdna!");
@@ -248,7 +253,8 @@ public class Databaze {
 	}
 	
 	
-	//	6
+
+
 	public void infoSkupinaZamestnance() {
 		System.out.println("\n│-----------------------------------------│");
 		System.out.println("	Zvolte skupinu zamestnancu: ");
@@ -282,7 +288,8 @@ public class Databaze {
         }
 	}
 	
-	//	7
+
+
 	public void infoSkupinaPocet() {
 		System.out.println("\n│-----------------------------------------│");
 		System.out.println("	Zvolte skupinu zamestnancu: ");
@@ -311,7 +318,8 @@ public class Databaze {
         System.out.println("│-----------------------------------------│\n");
 	}
 	
-	//	8
+
+
 	public void statistikyZamestnani() {
 		System.out.println("\n│-----------------------------------------│");
 		System.out.println("  Celkove statistiky firmy ");
@@ -384,7 +392,8 @@ public class Databaze {
 		}
 	}
 	
-	//	9
+
+
 	public void saveZamestnanec() {
 		if (vnitrniDatabaze.isEmpty()) {
 			System.out.println("	-Databaze je prazdna!");
@@ -408,7 +417,7 @@ public class Databaze {
 	                
 	                pw.println(z.getIC() + ";" + z.getJmeno() + ";" + z.getPrijmeni() + ";" + z.getRok() + ";" + z.getSkupina());
 	                
-	                System.out.println("	-Zamestnanec (" + z.getJmeno() + " " + z.getPrijmeni() + " (" + z.getIC() +") byl uspesne pridan do souboru.");
+	                System.out.println("	-Zamestnanec: " + z.getJmeno() + " " + z.getPrijmeni() + " (" + z.getIC() +") byl uspesne pridan do souboru.");
 	            } catch (IOException e) {
 	                System.out.println("	-Doslo k chybe pri ukladani do souboru: " + e.getMessage());
 	            }
@@ -418,7 +427,8 @@ public class Databaze {
 	        }
 	}
 	
-	//	10
+
+
 	public void loadZamestnanec() {
 	    String nazevSouboru = "UlozeniZamestnanci.txt";
 	    
@@ -484,7 +494,8 @@ public class Databaze {
 	    }
 	}
 	
-	//	11
+
+
 	public void choiseProfil() {
 		if (vnitrniDatabaze.isEmpty()) {
 			System.out.println("	-Databaze je prazdna!");
@@ -508,7 +519,8 @@ public class Databaze {
         }
 	}
 	
-	//	12
+
+
 	public void atributProfil() {
 		if (aktualniProfil == null) {
 			System.out.println("	-Neni nastaven aktualni zamestnanec!");
@@ -651,6 +663,8 @@ public class Databaze {
         }
 	}
 	
+	
+	
 	public void ulozSQL() {
 		System.out.println("\n	-Zalohovani dat do SQL...");
 		try {
@@ -699,6 +713,8 @@ public class Databaze {
 	    }
 	}
 	
+	
+	
 	public void nactiSQL() {
 		try (Connection conn = DriverManager.getConnection(URL_SQL)) {
 			if (conn != null) {
@@ -733,6 +749,8 @@ public class Databaze {
 			System.out.println("\n	-SQL zaloha nenalezena, start bez databaze.");
 		}
 	}
+	
+	
 	
 	public Zamestnanec getIC(int IC) {
 		return vnitrniDatabaze.get(IC);
