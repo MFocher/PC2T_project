@@ -37,19 +37,19 @@ public class Main {
 			try {
 				System.out.println("\n│-----------------------------------------│");
 				System.out.println("	Vyberte pozadovanou cinnost:\n");
-	            System.out.println("	1 ... pridani noveho zamestnance");
-	            System.out.println("	2 ... odebrani zamestnance");
-	            System.out.println("	3 ... pridani spoluprace");
-	            System.out.println("	4 ... vypsani vsech zamestnancu");
-	            System.out.println("	5 ... vypsani zamestnance dle IC");
-	            System.out.println("	6 ... vypsani zamestnancu dle prijmeni ve skupinach");
-	            System.out.println("	7 ... vypis poctu zamestnacu ve skupinach");
-	            System.out.println("	8 ... statistiky");
-	            System.out.println("	9 ... ulozeni zamestnance do souboru");
+	            System.out.println("	1  ... pridani noveho zamestnance");
+	            System.out.println("	2  ... odebrani zamestnance");
+	            System.out.println("	3  ... pridani spoluprace");
+	            System.out.println("	4  ... vypsani vsech zamestnancu");
+	            System.out.println("	5  ... vypsani zamestnance dle IC");
+	            System.out.println("	6  ... vypsani zamestnancu dle prijmeni ve skupinach");
+	            System.out.println("	7  ... vypis poctu zamestnacu ve skupinach");
+	            System.out.println("	8  ... statistiky");
+	            System.out.println("	9  ... ulozeni zamestnance do souboru");
 	            System.out.println("	10 ... nacteni zamestnance ze souboru");
 	            System.out.println("	11 ... zvoleni profilu zamestnance");
 	            System.out.println("	12 ... atribut skupiny zamestnance");
-	            System.out.println("	0 ... UKONCENI PROGRAMU");
+	            System.out.println("	0  ... UKONCENI PROGRAMU");
 	            System.out.println("│-----------------------------------------│\n");
 	            
 	            volba = pouzeCelaCisla(sc);
@@ -106,7 +106,7 @@ public class Main {
 	            	case 0:
 	            		run = false;
 	            		vnitrniDatabaze.ulozSQL();
-	            		System.out.println("	-PROGRAM UKONCEN!");
+	            		System.out.println("\n	-PROGRAM UKONCEN!     BYE");
 	            		break;
 	            	
 	            	default:

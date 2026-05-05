@@ -51,6 +51,10 @@ public class Databaze {
 	public void addZamestnanec() {
 		viewSkupiny();
 		int skupina = sc.nextInt();
+		while (skupina != 1 && skupina != 2) {
+	        System.out.println("	-Neplatna skupina (volte 1 nebo 2):");
+	        skupina = sc.nextInt();
+	    }
 		System.out.println("\n│-----------------------------------------│");
 		System.out.println("  Zadejte JMENO, PRIJMENI a ROK NAROZENI:");
         System.out.println("\n│-----------------------------------------│\n");
@@ -93,11 +97,6 @@ public class Databaze {
 			
 			System.out.println("	-Odebran zamestnanec: " + remove.getJmeno() + " " + remove.getPrijmeni() + ", rok narozeni: " + remove.getRok() + ", IC: " + remove.getIC() + ", skupina: " + remove.getSkupina());			
 			
-			/*try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				System.out.println("	-Uspani nezdareno");
-			}*/
 			return;
 			
 		} else {
@@ -116,7 +115,7 @@ public class Databaze {
 		}
 		
 		System.out.println("\n│-----------------------------------------│");
-		System.out.println("		Vyberte IC zamestnance: ");
+		System.out.println("	Vyberte IC zamestnance: ");
 		System.out.println("\n│-----------------------------------------│\n");
 		for (Zamestnanec s : vnitrniDatabaze.values()) {
 			System.out.println("	-Zamestnanec: " + s.getJmeno() + " " + s.getPrijmeni() + ", rok narozeni: " + s.getRok() + ", IC: " + s.getIC() + ", skupina: " + s.getSkupina());
@@ -127,6 +126,7 @@ public class Databaze {
         	System.out.println("	-Zvolen zamestnanec: " + s.getJmeno() + " " + s.getPrijmeni() + ", rok narozeni: " + s.getRok() + ", IC: " + s.getIC() + ", skupina: " + s.getSkupina());
         } else {
             System.out.println("	-Zamestnanec nenalezen!");
+            return;
         }
         
         System.out.println("\n│-----------------------------------------│");
@@ -144,6 +144,7 @@ public class Databaze {
         	System.out.println("	-Zvolen zamestnanec: " + t.getJmeno() + " " + t.getPrijmeni() + ", rok narozeni: " + t.getRok() + ", IC: " + t.getIC() + ", skupina: " + t.getSkupina());
         } else {
             System.out.println("	-Zamestnanec nenalezen!");
+            return;
         }
 		
         System.out.println("\n│-----------------------------------------│");
@@ -172,8 +173,8 @@ public class Databaze {
 	            ulozenaUroven = moznosti[(int)(Math.random() * 3)];
 	            break;
 	        default:
-	            System.out.println("	-Neplatna volba, nastavuji jako x.");
-	            ulozenaUroven = "x";
+	            System.out.println("	-Neplatna volba, nastavuji: PRUMERNA.");
+	            ulozenaUroven = "PRUMERNA";
 	            break;
 	    }
         
@@ -183,9 +184,9 @@ public class Databaze {
         System.out.println("\n│-----------------------------------------│");
 		System.out.println("	Vytvorena spoluprace mezi: ");
 		System.out.println("\n		" + s.getJmeno() + " " + s.getPrijmeni() + " (" + s.getIC() + ") ");
-		System.out.println("			a ");
+		System.out.println("		  a ");
 		System.out.println("\n		" + t.getJmeno() + " " + t.getPrijmeni() + " (" + t.getIC() + ") ");
-		System.out.println("			" + ulozenaUroven);
+		System.out.println("		  " + ulozenaUroven);
 		System.out.println("\n│-----------------------------------------│\n");
         
 	}
@@ -232,7 +233,7 @@ public class Databaze {
         }
         
         if(osobniSpoluprace.isEmpty()) {
-        	System.out.println("	-Zamestnanec nema spoluprace!");
+        	System.out.println("	   -Zamestnanec nema spoluprace!");
         } else {
             System.out.println("\n	-> Osobni spoluprace (" + IC +"):");
             
@@ -252,8 +253,8 @@ public class Databaze {
 		System.out.println("\n│-----------------------------------------│");
 		System.out.println("	Zvolte skupinu zamestnancu: ");
 		
-        System.out.println("\n	1 ... Datoví analytici");
-        System.out.println("	2 ... Bezpecnostní specialisté");
+        System.out.println("\n	1 ... Datovi analytici");
+        System.out.println("	2 ... Bezpecnostní specialiste");
         System.out.println("│-----------------------------------------│\n");
         
         int zvolenaSkupina = sc.nextInt();
@@ -266,7 +267,7 @@ public class Databaze {
         }
         
         if (vybraniZamestnanci.isEmpty()) {
-        	System.out.println("	-Nelze zobrazit skupinu, nebot je prazdna!");
+        	System.out.println("	-Nelze zobrazit skupinu, nebot je prazdna nebo neexistuje!");
         	return;
         }
         
@@ -291,6 +292,10 @@ public class Databaze {
         System.out.println("│-----------------------------------------│\n");
         
         int pocetniSkupina = sc.nextInt();
+        while (pocetniSkupina != 1 && pocetniSkupina != 2) {
+	        System.out.println("	-Neplatna skupina (volte 1 nebo 2):");
+	        pocetniSkupina = sc.nextInt();
+	    }
         
         int pocet = 0;
         
@@ -299,7 +304,6 @@ public class Databaze {
         		pocet++;
         	}
         }
-        
         
         System.out.println("\n│-----------------------------------------│");
 		System.out.println("	Pocet zamestnancu ve skupine " + pocetniSkupina + ": ");
@@ -342,21 +346,21 @@ public class Databaze {
 			pocetVazeb.put(ic2, pocetVazeb.getOrDefault(ic2, 0) + 1);
 		}
 
-		String prevazujiciKvalita = "DOBRÁ";
+		String prevazujiciKvalita = "DOBRA";
 		int maxKvalita = dobra;
 
 		if (prumerna > maxKvalita) {
 			maxKvalita = prumerna;
-			prevazujiciKvalita = "PRŮMĚRNÁ";
+			prevazujiciKvalita = "PRUMERNA";
 		}
 		if (spatna > maxKvalita) {
 			maxKvalita = spatna;
-			prevazujiciKvalita = "ŠPATNÁ";
+			prevazujiciKvalita = "SPATNA";
 		}
 
-		System.out.println("	1. Prevazujici kvalita spoluprace:");
+		System.out.println("	Prevazujici kvalita spoluprace:\n");
 		System.out.println("	-> " + prevazujiciKvalita + " (Pocet vyskytu: " + maxKvalita + ")");
-		System.out.println("	   (Celkove rozlozeni - Dobra: " + dobra + ", Prumerna: " + prumerna + ", Spatna: " + spatna + ")\n");
+		System.out.println("	   (Rozlozeni - Dobra: " + dobra + ", Prumerna: " + prumerna + ", Spatna: " + spatna + ")\n");
 
 		int maxVazeb = -1;
 		int topIC = -1;
@@ -370,13 +374,13 @@ public class Databaze {
 
 		Zamestnanec topZamestnanec = vnitrniDatabaze.get(topIC);
 		
-		System.out.println("	2. Zamestnanec s nejvice vazbami:");
+		System.out.println("	Zamestnanec s nejvice vazbami:\n");
 		if (topZamestnanec != null) {
 			System.out.println("	-> " + topZamestnanec.getJmeno() + " " + topZamestnanec.getPrijmeni() + " (IC: " + topIC + ")");
 			System.out.println("	   Pocet vazeb: " + maxVazeb);
 		} else {
-			System.out.println("	-> Neznamy/Smazany zamestnanec (IC: " + topIC + ")");
-			System.out.println("	   Pocet vazeb: " + maxVazeb);
+			System.out.println("	-> Neznamy/Smazany zamestnanec, IC: " + topIC + " ");
+			System.out.println("	   (Pocet vazeb: " + maxVazeb + ")");
 		}
 	}
 	
@@ -410,6 +414,7 @@ public class Databaze {
 	            }
 	        } else {
 	            System.out.println("	-Zamestnanec s IC: " + saveIC + " nenalezen!");
+	            return;
 	        }
 	}
 	
@@ -419,7 +424,7 @@ public class Databaze {
 	    
 	    System.out.println("\n│-----------------------------------------│");
 	    System.out.println("	Nacitani zamestnancu ze souboru...");
-	    System.out.println("│-----------------------------------------│\n");
+	    System.out.println("\n│-----------------------------------------│\n");
 
 	    Map<Integer, Zamestnanec> docasnaDatabaze = new HashMap<>();
 
@@ -453,13 +458,13 @@ public class Databaze {
 	    }
 
 	    if (docasnaDatabaze.isEmpty()) {
-	        System.out.println("	- Soubor existuje, ale neobsahuje zadna platna data zamestnancu.");
+	        System.out.println("	- Soubor existuje, ale zadna platna data zamestnancu.");
 	        return;
 	    }
 
-	    System.out.println("	Dostupni zamestnanci k nacteni ze souboru:");
+	    System.out.println("	Dostupni zamestnanci k nacteni ze souboru:\n");
 	    for (Zamestnanec z : docasnaDatabaze.values()) {
-	        System.out.println("	- " + z.getJmeno() + " " + z.getPrijmeni() + ", IC: " + z.getIC());
+	        System.out.println("	- " + z.getJmeno() + " " + z.getPrijmeni() + " rok narozeni: " + z.getRok() + ", IC: " + z.getIC());
 	    }
 
 	    System.out.println("\n	Zadejte IC zamestnance, ktereho chcete nacist:");
@@ -470,9 +475,9 @@ public class Databaze {
 	    if (vybrany != null) {
 	        if (!vnitrniDatabaze.containsKey(loadIC)) {
 	            vnitrniDatabaze.put(loadIC, vybrany);
-	            System.out.println("	- Zamestnanec uspesne nacten do programu: " + vybrany.getJmeno() + " " + vybrany.getPrijmeni());
+	            System.out.println("\n	- Zamestnanec uspesne nacten do programu: " + vybrany.getJmeno() + " " + vybrany.getPrijmeni() + ", IC:" + vybrany.getIC());
 	        } else {
-	            System.out.println("	- Nelze nacist: Zamestnanec s IC (" + loadIC + ") uz v aktivnim programu je!");
+	            System.out.println("	- Zamestnanec s IC (" + loadIC + ") uz v aktivnim programu je!");
 	        }
 	    } else {
 	        System.out.println("	- Zamestnanec s IC: " + loadIC + " v souboru nenalezen!");
@@ -524,7 +529,7 @@ public class Databaze {
 	
 	public void atributDatAn() {
 		System.out.println("\n│-----------------------------------------│");
-		System.out.println("  Modul datovych analytiku \n");
+		System.out.println("	Modul datovych analytiku \n");
         System.out.println("│-----------------------------------------│\n");
 
         int mujIC = aktualniProfil.getIC();
@@ -584,7 +589,7 @@ public class Databaze {
 	
 	public void atributBezSpec() {
 		System.out.println("\n│-----------------------------------------│");
-		System.out.println("  Modul bezpecnostnich specialistu \n");
+		System.out.println("	Modul bezpecnostnich specialistu \n");
         System.out.println("│-----------------------------------------│\n");
         
         if (aktualniProfil == null) {
@@ -644,12 +649,10 @@ public class Databaze {
         } else {
             System.out.println("	[VYSOKE RIZIKO] ");
         }
-        
-        
 	}
 	
 	public void ulozSQL() {
-		System.out.println("\n	-Zahajuji zalohovani dat do SQL...");
+		System.out.println("\n	-Zalohovani dat do SQL...");
 		try {
 			Class.forName("org.sqlite.JDBC");
 			try (Connection conn = DriverManager.getConnection(URL_SQL)) {
@@ -685,12 +688,12 @@ public class Databaze {
 							pstmt.executeUpdate();
 						}
 					}
-					System.out.println("	-Vsechna data byla uspesne zalohovana do SQL.");
+					System.out.println("\n	-Data byla zalohovana do SQL.");
 				}
 			}
 		}
 		catch (ClassNotFoundException e) {
-	        System.out.println("	-Kriticka chyba: Knihovna SQLite nebyla nalezena v Build Path!");
+	        System.out.println("	-Knihovna SQLite nebyla nalezena!");
 		}  catch (SQLException e) {
 	        System.out.println("	-Chyba při ukládání do SQL: " + e.getMessage());
 	    }
@@ -724,10 +727,10 @@ public class Databaze {
 						rsSpol.getString("uroven")
 					));
 				}
-				System.out.println("	-Data z SQL zalohy byla uspesne nactena.");
+				System.out.println("\n	-SQL zaloha nactena...");
 			}
 		} catch (SQLException e) {
-			System.out.println("	-SQL zaloha nenalezena, program startuje s prazdnou databazi.");
+			System.out.println("\n	-SQL zaloha nenalezena, start bez databaze.");
 		}
 	}
 	
